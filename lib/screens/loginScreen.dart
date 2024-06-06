@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prime_stream/main.dart';
 import 'package:prime_stream/screens/CatalogoScreen.dart';
+import 'package:prime_stream/screens/mainNavigator.dart';
 
 void main() {
   runApp(const Login());
@@ -132,7 +133,7 @@ Widget LoginButton(context){
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Catalogo()),
+                    MaterialPageRoute(builder: (context) => MainNavigator()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
