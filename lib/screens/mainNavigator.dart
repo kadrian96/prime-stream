@@ -38,9 +38,6 @@ class _MainScreenState extends State<MainScreen> {
     Account(),
   ];
      return Scaffold(
-      appBar: AppBar(
-        title: Text('PrimeStream'),
-      ),
       body: Center(
         child: _widgetOptions.elementAt(indice),
       ),

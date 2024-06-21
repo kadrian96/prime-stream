@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:prime_stream/main.dart';
 import 'package:prime_stream/screens/CatalogoScreen.dart';
+import 'package:prime_stream/screens/loginScreen.dart';
 import 'package:prime_stream/screens/mainNavigator.dart';
 
 void main() {
@@ -180,10 +183,7 @@ Widget RegisterButton(context){
     Container(
       child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainNavigator()),
-                  );
+                   registro(context);
                 },
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 15.0),
@@ -208,7 +208,7 @@ return(
   Container(
     child:  ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => PrimeStream()),
                   );
@@ -230,4 +230,126 @@ return(
               ),
     )
 );
+}
+void registro (context) async{
+  try {
+  final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    email: _emailController.text,
+    password: _passwordController.text,
+  );
+
+  //////////////////////////////////////////////////////////
+     Navigator.push(context, 
+      MaterialPageRoute(builder: (context)=>Login()));
+      guardar();
+      alerta04(context);
+    //////////////////////////////////////////////////////////
+} on FirebaseAuthException catch (e) {
+  if (e.code == 'weak-password') {
+    print('The password provided is too weak.');
+    alerta01(context);
+  } else if (e.code == 'email-already-in-use') {
+    print('The account already exists for that email.');
+    alerta02(context);
+  }
+} catch (e) {
+  print(e);
+  alerta03(context);
+}
+}
+
+Future<void> guardar() async {
+  String emailkey = _emailController.text.replaceAll('.', 'punt0');
+  DatabaseReference ref = FirebaseDatabase.instance.ref("usuarios/"+emailkey);               //doy el nombre a la coleccion en el metodo .ref y el nombre del id con el que se va a guardar
+await ref.set({
+  "name": _nombreController.text,
+  "lastname":_apellidoController.text,
+  "email": _emailController.text,
+
+ 
+});
+}
+
+
+void alerta01(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text("Error"),
+        content: const Text("La contraseña es muy debil"),
+        actions: [
+          
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void alerta02(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text("Error"),
+        content: const Text("La cuenta ya existe con este correo"),
+        actions: [
+          
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void alerta03(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text("Error"),
+        content: const Text("Contacte con soporte tecnico"),
+        actions: [
+          
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      );
+    },
+  );
+}
+void alerta04(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text("Info"),
+        content: const Text("Registro Exitoso, inicia sesion"),
+        actions: [
+          
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      );
+    },
+  );
 }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:prime_stream/main.dart';
 import 'package:prime_stream/screens/CatalogoScreen.dart';
@@ -131,10 +132,7 @@ Widget LoginButton(context){
     Container(
       child:  ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainNavigator()),
-                  );
+                  login(context);
                 },
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 15.0),
@@ -183,6 +181,91 @@ Widget RegresarButton(context){
               ),
 
     )
+  );
+}
+
+void login(context) async{
+  try {
+  final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+    email: _emailController.text,
+    password: _passwordController.text,
+    
+  );
+  //////////////////////////////////////////////////////////
+     Navigator.push(context, 
+      MaterialPageRoute(builder: (context)=>MainNavigator()));
+    //////////////////////////////////////////////////////////
+} on FirebaseAuthException catch (e) {
+  if (e.code == 'user-not-found') {
+    print('No user found for that email.');
+    alerta01(context);
+
+  } else if (e.code == 'wrong-password') {
+    print('Wrong password provided for that user.');
+    alerta02(context);
+  }else{
+    alerta03(context);
+  }
+}
+}
+void alerta01(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text("Error"),
+        content: const Text("El usuario no se encontro"),
+        actions: [
+          
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      );
+    },
+  );
+}
+void alerta02(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text("Error"),
+        content: const Text("Contraseña del usuario incorrecta"),
+        actions: [
+          
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      );
+    },
+  );
+}
+void alerta03(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text("Error"),
+        content: const Text("Las credenciales ingresadas son incorrectas"),
+        actions: [
+          
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      );
+    },
   );
 }
 

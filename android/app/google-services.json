@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "355998195019",
+    "project_id": "dolce-italia-3606f",
+    "storage_bucket": "dolce-italia-3606f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:355998195019:android:7483792a28d256f4641cce",
+        "android_client_info": {
+          "package_name": "com.example.prime_stream"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "355998195019-dukafs5s096sao4l9abkag39aivutcqm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHrO0HHWk1GZUIEkzLc_opa1FcFZ_yXUM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "355998195019-dukafs5s096sao4l9abkag39aivutcqm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
